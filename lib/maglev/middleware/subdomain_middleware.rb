@@ -5,7 +5,7 @@ module Maglev::Middleware
     end
 
     def call(env)
-      find_tenant(env)
+      env["current_site"] = find_tenant(env)
       @app.call(env)
     end
 
@@ -13,7 +13,7 @@ module Maglev::Middleware
 
     def find_tenant(env)
       slug = env["HTTP_HOST"].split(".").first
-      env["current_site"] = Maglev::Site.find_by_slug(slug) if slug
+      Maglev::Site.find_by_slug(slug) if slug
     end
   end
 end
