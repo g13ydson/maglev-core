@@ -2,10 +2,12 @@
 
 require 'vite_ruby'
 require 'maglev/migration'
+require_relative "./middleware/subdomain_middleware"
 
 module Maglev
   class Engine < ::Rails::Engine
     isolate_namespace Maglev
+    middleware.use Maglev::Middleware::SubdomainMiddleware
 
     config.generators do |g|
       g.test_framework :rspec
@@ -15,12 +17,18 @@ module Maglev
 
     initializer 'maglev.theme_reloader' do |app|
       require_relative './theme_filesystem_loader'
-      theme_path = Rails.root.join('app/theme')
-      theme_reloader = app.config.file_watcher.new([], { theme_path.to_s => ['.yml', 'yml'] }) do
-        theme_loader = Maglev::ThemeFilesystemLoader.new(
-          Maglev.services(context: nil).fetch_section_screenshot_path
-        )
-        Maglev.local_themes = [theme_loader.call(theme_path)]
+      themes_base_path = Rails.root.join('app/themes')
+
+      theme_reloader = app.config.file_watcher.new([], { themes_base_path.to_s => ['.yml', 'yml'] }) do
+        Maglev.local_themes = Dir.entries(themes_base_path).select do |entry|
+          File.directory?(themes_base_path.join(entry)) && !(entry == '.' || entry == '..')
+        end.map do |theme_folder|
+          theme_path = themes_base_path.join(theme_folder)
+          theme_loader = Maglev::ThemeFilesystemLoader.new(
+            Maglev.services(context: nil).fetch_section_screenshot_path
+          )
+          theme_loader.call(theme_path)
+        end
       end
 
       app.reloaders << theme_reloader
