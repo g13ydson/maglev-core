@@ -4,10 +4,17 @@ module Maglev
   class FetchSectionsPath
     include Injectable
 
-    argument :theme, default: nil
+    dependency :fetch_theme
+    dependency :context
 
     def call
-      'theme'
+      "theme/#{site&.theme_id}"
+    end
+
+    protected
+
+    def site
+      @site ||= context&.site
     end
   end
 end

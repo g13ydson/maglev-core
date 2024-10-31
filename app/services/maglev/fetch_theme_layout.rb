@@ -6,9 +6,16 @@ module Maglev
     include Injectable
 
     dependency :fetch_theme
+    dependency :context
 
     def call
-      'theme/layout'
+      "theme/#{site.theme_id}/layout"
+    end
+
+    protected
+
+    def site
+      @site ||= context.site
     end
   end
 end
