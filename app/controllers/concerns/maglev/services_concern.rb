@@ -29,7 +29,7 @@ module Maglev
       ::Maglev::ServiceContext.new(
         rendering_mode: maglev_rendering_mode,
         controller: self,
-        site: nil
+        site: request.env["current_site"]
       )
     end
 
