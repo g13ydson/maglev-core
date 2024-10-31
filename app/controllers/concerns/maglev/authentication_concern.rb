@@ -12,6 +12,7 @@ module Maglev
 
     def require_authentication
       raise Maglev::Errors::NotAuthorized unless authenticated_in_app?
+      raise ActionController::RoutingError, 'Maglev site not found' unless maglev_site
 
       session[:maglev_site_id] = maglev_site.id
     end
