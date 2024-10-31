@@ -9,7 +9,7 @@ module Maglev
     dependency :context
 
     def call
-      "theme/#{site.theme_id}/layout"
+      "themes/#{site.theme_id}/layout"
     end
 
     protected
