@@ -13,9 +13,9 @@ module Maglev
 
     dependency :fetch_site,                 class: Maglev::FetchSite, depends_on: %i[config context]
     dependency :fetch_theme,                class: Maglev::FetchTheme, depends_on: %i[fetch_site context]
-    dependency :fetch_theme_layout,         class: Maglev::FetchThemeLayout, depends_on: %i[fetch_theme]
+    dependency :fetch_theme_layout,         class: Maglev::FetchThemeLayout, depends_on: %i[fetch_theme context]
     dependency :fetch_style,                class: Maglev::FetchStyle
-    dependency :fetch_sections_path,        class: Maglev::FetchSectionsPath, depends_on: :fetch_theme
+    dependency :fetch_sections_path,        class: Maglev::FetchSectionsPath, depends_on: %i[fetch_theme context]
     dependency :fetch_section_screenshot_path, class: Maglev::FetchSectionScreenshotPath,
                                                depends_on: :fetch_sections_path
     dependency :fetch_section_screenshot_url, class: Maglev::FetchSectionScreenshotUrl,
