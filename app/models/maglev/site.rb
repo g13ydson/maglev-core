@@ -8,7 +8,12 @@ module Maglev
     include Maglev::Translatable
 
     ## associations ##
-    has_many :pages, dependent: :destroy
+    has_many :pages,
+             class_name: '::Maglev::Page',
+             dependent: :delete_all,
+             foreign_key: 'maglev_site_id',
+             inverse_of: :site,
+             autosave: true
 
     ## translations ##
     translates :sections

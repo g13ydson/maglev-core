@@ -9,7 +9,7 @@ module Maglev
     include Maglev::Page::SearchConcern
 
     ## associations ##
-    belongs_to :site
+    belongs_to :site, class_name: 'Maglev::Site', foreign_key: 'maglev_site_id'
 
     ## translations ##
     translates :title, presence: true
