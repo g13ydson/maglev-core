@@ -6,6 +6,7 @@ module Maglev
   class FetchPage
     include Injectable
 
+    argument :site
     argument :path
     argument :locale
     argument :default_locale
@@ -26,7 +27,7 @@ module Maglev
     end
 
     def pages
-      Maglev::Page
+      Maglev::Page.where(site: site)
     end
   end
 end
