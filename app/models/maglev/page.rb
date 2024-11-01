@@ -8,6 +8,9 @@ module Maglev
     include Maglev::Page::PathConcern
     include Maglev::Page::SearchConcern
 
+    ## associations ##
+    belongs_to :site
+
     ## translations ##
     translates :title, presence: true
     translates :sections
