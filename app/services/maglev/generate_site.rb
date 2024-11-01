@@ -36,7 +36,7 @@ module Maglev
     end
 
     def create_site
-      Maglev::Site.create(name: name, slug: slug, locales: config.default_site_locales)
+      Maglev::Site.create(name: name, slug: slug, theme_id: theme_id, locales: config.default_site_locales)
     end
 
     def setup_pages_for_site(site)
