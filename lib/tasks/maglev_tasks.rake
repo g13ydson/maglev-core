@@ -8,11 +8,29 @@ end
 
 namespace :maglev do
   desc 'Create site'
-  task create_site: :environment do
+  task :create_site => :environment do
+    # Prompt the user for each parameter if not provided
+    print "Enter the site name: "
+    name = $stdin.gets.chomp
+
+    print "Enter the site slug: "
+    slug = $stdin.gets.chomp
+
+    print "Enter the theme ID: "
+    theme_id = $stdin.gets.chomp
+
+    # Simple validation to ensure all parameters are provided
+    if name.empty? || slug.empty? || theme_id.empty?
+      puts "[Error] All parameters (name, slug, theme_id) are required."
+      return
+    end
+
     Maglev::GenerateSite.call(
-      theme: Maglev.local_themes.first
+      name: name,
+      slug: slug,
+      theme_id: theme_id
     )
-    puts '🎉 Your site has been created with success!'
+    puts '🎉 Your site has been created successfully!'
   end
 
   desc 'Change site locales'
