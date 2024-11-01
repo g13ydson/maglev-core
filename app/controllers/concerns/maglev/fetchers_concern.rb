@@ -27,6 +27,7 @@ module Maglev
 
     def fetch_maglev_page
       @fetch_maglev_page ||= maglev_services.fetch_page.call(
+        site: maglev_site,
         path: maglev_page_path_from_params,
         locale: content_locale,
         default_locale: default_content_locale,
