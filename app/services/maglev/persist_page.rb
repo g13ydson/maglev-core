@@ -33,7 +33,7 @@ module Maglev
       else
         page.prepare_sections(theme)
       end
-
+      page.site = site
       page.save!
     end
 
